@@ -386,6 +386,26 @@ public abstract class AbstractJsonAssertTest {
     }
 
     @Test
+    public void testAssertPartStringOk() {
+        assertJsonPartEquals("\"1\"", "{\"test\":{\"value\":\"1\"}}", "test.value");
+    }
+
+    @Test
+    public void testAssertPartStringConvertableToIntOk() {
+        assertJsonPartEquals("1", "{\"test\":{\"value\":\"1\"}}", "test.value");
+    }
+
+    @Test
+    public void testAssertPartRealStringOk() {
+        assertJsonPartEquals("\"abc\"", "{\"test\":{\"value\":\"abc\"}}", "test.value");
+    }
+
+    @Test
+    public void testAssertPartRealString2Ok() {
+        assertJsonPartEquals("abc", "{\"test\":{\"value\":\"abc\"}}", "test.value");
+    }
+
+    @Test
     public void testAssertPartOkNumber() {
         assertJsonPartEquals(1, "{\"test\":{\"value\":1}}", "test.value");
     }

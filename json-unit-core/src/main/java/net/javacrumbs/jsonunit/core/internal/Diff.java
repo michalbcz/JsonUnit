@@ -205,7 +205,18 @@ public class Diff {
         }
 
         if (!expectedNodeType.equals(actualNodeType)) {
-            valueDifferenceFound("Different value found in node \"%s\". Expected '%s', got '%s'.", fieldPath, expectedNode, actualNode);
+
+            if (expectedNode.asText().equals(actualNode.asText())) {
+                valueDifferenceFound(
+                        "Different value found in node \"%s\". Expected '%s' (%s), got '%s' (%s).\n" +
+                        "As values are semantically equals it seems that you want to assert that text node has given value.\n" +
+                        "Try something like this\n\n" +
+                        "assertJsonPartEquals(\"\\\"%s\\\"\", assertedJson, \"%s\");\n\n" +
+                        "Notice escaped quotes - when you pass a string it's parsed as Json so without quotes it's identified as a number.",
+                        fieldPath, expectedNode, expectedNodeType, actualNode, actualNodeType, expectedNode.asText(), fieldPath);
+            } else {
+                valueDifferenceFound("Different value found in node \"%s\". Expected '%s', got '%s'.", fieldPath, expectedNode, actualNode);
+            }
         } else {
             switch (expectedNodeType) {
                 case OBJECT:
